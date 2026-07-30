@@ -1,0 +1,40 @@
+[project]
+name = "ipa-search-backend"
+version = "0.1.0"
+authors = [
+    { name = "Sarah Rockstroh", email = "sarah.rockstroh@uni-leipzig.de" }, 
+    { name = "Elisa Piehler", email = "la80okum@uni-leipzig.de" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.124.4",
+    "fhir-resources>=8.2.0",
+    "loguru>=0.7.3",
+    "openai>=2.11.0",
+    "opensearch-py>=3.1.0",
+    "pydantic-ai>=1.63.0",
+    "pydantic-settings>=2.12.0",
+    "python-dotenv>=1.2.1",
+    "requests>=2.32.5",
+    "wikipedia>=1.4.0",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["ipa_backend"]
+
+[tool.pytest.ini_options]
+testpaths = "backend/tests"
+addopts= "--maxfail=1 --show-capture=stdout --verbose -s"
+# instructor and fastapi libraries do not have full pydanticV3 support
+filterwarnings = ["ignore::pydantic.PydanticDeprecatedSince20"]

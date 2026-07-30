@@ -1,0 +1,36 @@
+image: astral/uv:python3.12-bookworm
+
+stages:
+  - test
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+# auto-cancel older pipelines on push
+default:
+  interruptible: true
+
+pytest:
+  stage: test
+
+  variables:
+    DISABLE_SECURITY_PLUGIN: "true"
+    ES_JAVA_OPTS: "-Xms2g -Xmx2g"
+    OPENSEARCH_HOST: "opensearch"
+    OPENSEARCH_PORT: "9200"
+
+  services:
+    - name: opensearchproject/opensearch:2
+      alias: opensearch
+      command: ["bash", "-c", "env 'discovery.type=single-node' 'cluster.name=opensearch' ./opensearch-docker-entrypoint.sh"]
+
+  script:
+    - uv sync --project backend --extra test
+    - uv run --project backend pytest --junitxml=report_pytest.xml backend/tests/test_integration.py
+
+  artifacts:
+    reports:
+      junit: report_pytest.xml
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

@@ -1,0 +1,10 @@
+[project]
+name = "ipa-search-frontend"
+version = "0.1.0"
+authors = [
+    { name = "Sarah Rockstroh", email = "sarah.rockstroh@uni-leipzig.de" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.52.1",
+]

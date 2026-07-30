@@ -1,0 +1,47 @@
+@opensearch = http://localhost:9200
+
+###
+
+GET {{opensearch}}/ipa/_settings
+
+###
+
+# OpenSearch settings that might need to be set once
+PUT {{opensearch}}/ipa/_settings
+
+{
+  "index": {
+    "number_of_replicas": 0
+  }
+}
+
+
+###
+
+PUT {{opensearch}}/_cluster/settings
+
+{
+  "persistent": {
+    "indices.query.bool.max_clause_count": 4096,
+    "search.insights.top_queries.latency.enabled" : false,
+    "search.insights.top_queries.cpu.enabled" : false,
+    "search.insights.top_queries.memory.enabled" : false
+  }
+}
+
+###
+
+GET {{opensearch}}/_cat/shards
+
+###
+
+GET {{opensearch}}/
+
+###
+
+GET {{opensearch}}/_cluster/allocation/explain
+
+###
+
+# Index löschen
+DELETE {{opensearch}}/mock-data-index

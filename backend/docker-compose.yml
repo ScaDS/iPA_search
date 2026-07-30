@@ -1,0 +1,26 @@
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - opensearchdata:/usr/share/opensearch/data
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    mem_limit: 4g
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2 
+    ports:
+      - "127.0.0.1:5601:5601"
+    environment:
+      - "OPENSEARCH_HOSTS=http://opensearch:9200"
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
+    depends_on:
+      - opensearch
+
+volumes:
+  opensearchdata:
+    driver: local

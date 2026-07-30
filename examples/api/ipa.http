@@ -1,0 +1,83 @@
+@ipa = http://localhost:8000
+@fhir = http://localhost:8103/fhir
+
+###
+
+PUT {{ipa}}/plain/index_files/ipa?path=/path/to/GraSSCo/dataset&patient_id=mock-data
+
+###
+
+PUT {{ipa}}/fhir/index_files/ipa?path=/path/to/Synthea_FHIR_export/
+
+###
+
+GET {{ipa}}/checkhealth
+Content-Type: application/json
+
+###
+
+GET {{ipa}}/plain/search
+
+###
+
+POST {{ipa}}/plain/search/ipa/mock-data
+
+{
+	"search": {
+		"method": "lexical",
+		"query": "diabetes"
+	}
+}
+
+### 
+
+//		"api_base_public": "https://chat-ai.academiccloud.de/v1",
+//		"api_key_public": "{{KISSKI_API_KEY}}",
+//		"model_public": "medgemma-27b-it"
+
+POST {{ipa}}/plain/search/ipa/mock-data
+
+{
+	"search": {
+		"method": "llm_agent_doccheck",
+		"query": "Tumor"
+	},
+	"llm": {
+		"api_base_public": "https://llm.scads.ai/v1",
+		"api_key_public": "{{SCADSAI_API_KEY}}",
+		"model_public": "openai/gpt-oss-120b"
+	}
+}
+
+### 
+
+POST {{ipa}}/plain/search/ipa/mock-data
+
+{
+	"search": {
+		"method": "llm_agent_doccheck",
+		"query": "Rheuma"
+	}
+}
+
+###
+
+POST {{ipa}}/plain/search/ipa/mock-data
+
+{
+	"search": {
+		"method": "llm_agent_wikipedia",
+		"query": "Rheuma"
+	}
+}
+
+### 
+# Example Request to FHIR-Search API
+POST {{ipa}}/fhir/search/ipa/8a993625-7553-424b-89f5-3b6a6c53030a
+
+{
+	"search": {
+		"method": "lexical",
+		"query": "weight"
+	}
+}
