@@ -75,3 +75,9 @@ uv run --project backend --env-file backend/.env pytest -v
 You find the iPA API documentation at http://localhost:8000/docs .
 
 Note: The iPA backend server must running in order to show the documentation. (`uv run --project backend fastapi dev --entrypoint ipa_backend.main:app`)
+
+
+### Contact
+
+For questions you can contact Christian Martin: cmartin@uni-leipzig.de
+
